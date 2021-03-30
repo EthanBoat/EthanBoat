@@ -1,0 +1,55 @@
+{
+  "name": "ethanboat",
+  "version": "0.0.1",
+  "description": "A discord bot that spits out random facts (for now)...",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^6.0.0",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
+  },
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "eslint app",
+    "lint:fix": "eslint app --fix",
+    "prettier": "prettier --write app/**/*.js",
+    "prettier:config": "prettier --write config/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pilottoaster/EthanBoat.git"
+  },
+  "author": "EthanBoat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pilottoaster/EthanBoat/issues"
+  },
+  "homepage": "https://github.com/pilottoaster/EthanBoat#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 160,
+    "trailingComma": "all",
+    "endOfLine": "lf",
+    "arrowParens": "avoid"
+  }
+}
