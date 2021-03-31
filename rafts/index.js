@@ -1,5 +1,11 @@
 'use strict';
 
-const rafts = {};
+function createRafts(boat) {
+  const rafts = {};
 
-module.exports = rafts;
+  rafts.eval = new (require('./eval'))(boat);
+
+  return rafts;
+}
+
+module.exports = createRafts;

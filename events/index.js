@@ -1,5 +1,7 @@
 'use strict';
 
-const events = {}
+const events = {};
+
+events.message = require('./message');
 
 module.exports = events;
