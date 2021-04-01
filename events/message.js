@@ -9,8 +9,7 @@ module.exports = async (boat, message) => {
   if (message.channel.type !== 'text') return;
 
   if (!message.content.startsWith(boat.prefix)) {
-    handleRaft(boat.rafts, message);
-    return;
+    return handleRaft(boat.rafts, message);
   }
 
   const args = message.content.slice(boat.prefix.length).trim().split(/\s+/g);
@@ -18,8 +17,7 @@ module.exports = async (boat, message) => {
 
   const handler = boat.commands.get(command);
   if (!handler) {
-    handleRaft(boat.rafts, message);
-    return;
+    return handleRaft(boat.rafts, message);
   }
 
   if (handler.owner && !boat.owners.includes(message.author.id)) return;
@@ -27,7 +25,7 @@ module.exports = async (boat, message) => {
   try {
     await handler.run(message, args);
   } catch (err) {
-    boat.log(module, `Error occured during command call ${handler.name}: ${util.formatWithOptions({}, err)}`);
+    boat.log(module, `Error occurred during command call ${handler.name}: ${util.formatWithOptions({}, err)}`);
   }
 };
 
