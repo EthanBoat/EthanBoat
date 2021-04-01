@@ -136,7 +136,7 @@ class Boat {
    * @param {*} message it can be anything lmao
    */
   log(source, message) {
-    console.log(`Log from ${source.id ? source.id : source}`, message);
+    console.log(`Log from ${source.id ?? source}`, message);
   }
 }
 

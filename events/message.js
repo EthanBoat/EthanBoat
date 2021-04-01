@@ -27,7 +27,7 @@ module.exports = async (boat, message) => {
   try {
     await handler.run(message, args);
   } catch (err) {
-    boat.log(module, `Error occured during command call ${handler.name}: ${util.formatWithOptions({}, err)}`);
+    boat.log(module, `Error occurred during command call ${handler.name}: ${util.formatWithOptions({}, err)}`);
   }
 };
 
