@@ -9,7 +9,8 @@ module.exports = async (boat, message) => {
   if (message.channel.type !== 'text') return;
 
   if (!message.content.startsWith(boat.prefix)) {
-    return handleRaft(boat.rafts, message);
+    handleRaft(boat.rafts, message);
+    return;
   }
 
   const args = message.content.slice(boat.prefix.length).trim().split(/\s+/g);
@@ -17,7 +18,8 @@ module.exports = async (boat, message) => {
 
   const handler = boat.commands.get(command);
   if (!handler) {
-    return handleRaft(boat.rafts, message);
+    handleRaft(boat.rafts, message);
+    return;
   }
 
   if (handler.owner && !boat.owners.includes(message.author.id)) return;
