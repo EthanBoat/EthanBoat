@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Represents a raft that handles one function
+ * @abstract
+ */
 class BaseRaft {
   constructor(boat) {
     /**

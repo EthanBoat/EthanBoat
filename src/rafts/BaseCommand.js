@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Represents a standard text command that can be run
+ * @abstract
+ */
 class BaseCommand {
   constructor(raft, options) {
     /**
@@ -31,6 +35,7 @@ class BaseCommand {
 
     /**
      * Whether this command is owners only
+     * @type {boolean}
      */
     this.owner = options.owner ?? false;
   }

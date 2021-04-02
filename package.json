@@ -9,6 +9,7 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "discord.js-docgen": "github:discordjs/docgen",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
@@ -18,10 +19,13 @@
     "prettier": "^2.2.1"
   },
   "scripts": {
-    "test": "npm run lint",
+    "test": "npm run lint && npm run docs:test",
+    "docs": "docgen --source src --output docs/docs.json",
+    "docs:test": "docgen --source src",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "prettier": "prettier --write src/**/*.js"
+    "prettier": "prettier --write src/**/*.js",
+    "prettier:config": "prettier --write config/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -50,4 +54,5 @@
     "trailingComma": "all",
     "endOfLine": "lf",
     "arrowParens": "avoid"
-  }}
+  }
+}
