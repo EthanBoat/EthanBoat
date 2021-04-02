@@ -1,1 +1,1 @@
-## [View the documentation here.](http://192.168.0.3/#/docs/ethanboat)
+## [View the documentation here.](http://bot.corncierge.com/#/docs/ethanboat/master/class/Boat)
