@@ -15,6 +15,14 @@ class BaseRaft {
      */
     this.active = true;
   }
+
+  /**
+   * Initiates this raft
+   * @abstract
+   */
+  launch() {
+    throw new Error('Must be implemented by subclass');
+  }
 }
 
 module.exports = BaseRaft;
