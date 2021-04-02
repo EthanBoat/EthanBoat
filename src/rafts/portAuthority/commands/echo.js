@@ -15,17 +15,15 @@ class EchoCommand extends BaseCommand {
     super(boat, options);
   }
 
-  run(message) {
-    /* eslint-disable-next-line no-unused-vars */
-    const client = this.boat.client;
+  run(message, args) {
     let embed = new Discord.MessageEmbed()
       .setTitle('Echo')
       .setColor('RANDOM')
-      .setDescription(message.content.slice(this.boat.prefix.length + 'echo'.length))
+      .setDescription(args.join(' '))
       .setFooter('Made by Pilottoaster, Ethan, Markens123 without ck')
       .setAuthor(message.author.tag, message.author.displayAvatarURL());
 
-    message.channel.send(null, embed);
+    message.channel.send(embed);
   }
 }
 

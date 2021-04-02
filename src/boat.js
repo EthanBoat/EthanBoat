@@ -5,6 +5,8 @@ const { Client, Collection } = require('discord.js');
 const events = require('./events');
 const interactionHandler = require('./interactionHandler');
 const rafts = require('./rafts');
+const BaseRaft = require('./rafts/BaseRaft');
+const util = require('./util');
 
 /**
  * The main entry point for any instance of this bot.
@@ -54,7 +56,7 @@ class Boat {
      * The sub modules that this boat handles
      * @type {Object}
      */
-    this.rafts = rafts(this);
+    this.rafts = {};
 
     /**
      * The text based commands that can be called, and their associated raft
@@ -73,9 +75,16 @@ class Boat {
    * Connect the boat to discord and register events
    * @returns {Promise}
    */
-  boot() {
-    this.log(module, 'Registering events');
+  async boot() {
+    // Iniatiate all rafts
+    this.log(module, 'Launching rafts');
+    await util.objForEach(rafts, this.launchRaft.bind(this));
+
+    // Register all text based commands
+    this.log(module, 'Collecting commands');
     this.setCommands();
+
+    this.log(module, 'Registering events');
     this.attach();
 
     // Temporary Addition to handle interactions before discord.js does
@@ -92,17 +101,28 @@ class Boat {
   }
 
   /**
+   * Register a raft tpo this boat
+   * @param {BaseRaft} raft the raft to register
+   * @param {string} name the name of the raft
+   * @private
+   */
+  async launchRaft(raft, name) {
+    raft = new raft(this);
+    if (!(raft instanceof BaseRaft)) throw new TypeError('All rafts must extend BaseRaft');
+    if (!raft.active) return;
+    await raft.launch();
+    this.rafts[name] = raft;
+  }
+
+  /**
    * Associate all commands from their rafts
    * @private
    */
   setCommands() {
-    const raftNames = Object.keys(this.rafts);
-    raftNames.forEach(raft => {
-      if (this.rafts[raft].active) {
-        this.rafts[raft].commands.forEach((command, commandName) => {
-          this.commands.set(commandName, command);
-        });
-      }
+    util.objForEach(this.rafts, raft => {
+      raft.commands.forEach((command, commandName) => {
+        this.commands.set(commandName, command);
+      });
     });
   }
 

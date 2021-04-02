@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 // Run
-const shipyard = require('./boat');
+const shipyard = require('./src/boat');
 const config = {
   token: process.env.DISCORD_TOKEN,
   clientOpts: {},

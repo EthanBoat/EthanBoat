@@ -18,16 +18,16 @@ class PingCommand extends BaseCommand {
   }
 
   run(message) {
-    /* eslint-disable-next-line no-unused-vars */
     const client = this.boat.client;
+    const description = `🏓 API offset: ${message.createdTimestamp - Date.now()}ms. Heartbeat: ${Math.round(client.ws.ping)}ms.`;
     let embed = new Discord.MessageEmbed()
-      .setTitle('Ping')
+      .setTitle('Pong')
       .setColor('#F1C40F')
-      .setDescription(`🏓 Latency is ${message.createdTimestamp - Date.now()}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
+      .setDescription(description)
       .setFooter('Made by Pilot, Ethan, Markens without ck');
 
-    message.channel.send('Loading data').then(msg => {
-      msg.edit(null, embed);
+    message.channel.send(embed).then(msg => {
+      msg.edit(embed.setDescription(`${description} API latency ${msg.createdTimestamp - message.createdTimestamp}ms.`));
     });
   }
 }

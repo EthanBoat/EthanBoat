@@ -3,12 +3,19 @@
 class BaseCommand {
   constructor(raft, options) {
     /**
+     * The boat that handles this commands raft
+     * @name BaseCommand#boat
+     * @type {boat}
+     */
+    Object.defineProperty(this, 'boat', { value: raft.boat });
+
+    /**
      * The raft that handles this command
      * @name BaseCommand#raft
      * @type {Raft}
      */
     Object.defineProperty(this, 'raft', { value: raft });
-    Object.defineProperty(this, 'boat', { value: raft.boat });
+
     /**
      * The name of this command
      * @name BaseCommand#name
