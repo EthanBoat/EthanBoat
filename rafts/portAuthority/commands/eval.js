@@ -3,22 +3,7 @@
 /* eslint-disable-next-line no-unused-vars */
 const util = require('util');
 
-const { Collection } = require('discord.js');
-const BaseCommand = require('../BaseCommand');
-const BaseRaft = require('../BaseRaft');
-
-class EvalRaft extends BaseRaft {
-  constructor(boat) {
-    super(boat);
-
-    /**
-     * The commands for this raft
-     * @type {Collection<string, Object>}
-     */
-    this.commands = new Collection();
-    this.commands.set('eval', new EvalCommand(boat));
-  }
-}
+const BaseCommand = require('../../BaseCommand');
 
 class EvalCommand extends BaseCommand {
   constructor(boat) {
@@ -53,4 +38,4 @@ class EvalCommand extends BaseCommand {
   }
 }
 
-module.exports = EvalRaft;
+module.exports = EvalCommand;

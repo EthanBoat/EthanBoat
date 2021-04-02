@@ -3,8 +3,7 @@
 function createRafts(boat) {
   const rafts = {};
 
-  rafts.eval = new (require('./eval'))(boat);
-
+  rafts.eval = new (require('./portAuthority'))(boat);
   return rafts;
 }
 

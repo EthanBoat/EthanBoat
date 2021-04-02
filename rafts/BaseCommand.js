@@ -1,14 +1,14 @@
 'use strict';
 
 class BaseCommand {
-  constructor(boat, options) {
+  constructor(raft, options) {
     /**
-     * The boat that handles this command
-     * @name BaseCommand#boat
-     * @type {Boat}
+     * The raft that handles this command
+     * @name BaseCommand#raft
+     * @type {Raft}
      */
-    Object.defineProperty(this, 'boat', { value: boat });
-
+    Object.defineProperty(this, 'raft', { value: raft });
+    Object.defineProperty(this, 'boat', { value: raft.boat });
     /**
      * The name of this command
      * @name BaseCommand#name
