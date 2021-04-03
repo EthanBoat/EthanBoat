@@ -6,6 +6,7 @@ const events = require('./events');
 const interactionHandler = require('./interactionHandler');
 const rafts = require('./rafts');
 const BaseRaft = require('./rafts/BaseRaft');
+const logBuilder = require('./rafts/captainsLog/LogRouter');
 const util = require('./util');
 
 /**
@@ -13,12 +14,23 @@ const util = require('./util');
  */
 class Boat {
   /**
+   * The logging options
+   * @typedef {Object} LogOptions
+   * @property {LogLevel} [maxLevel=error] the maximum level of logging to allow in the output file
+   * @property {string} outputFile the location of the output file, either relative or direct path
+   * @property {boolean} [verbose=false] whether to log verbose to the console
+   * @property {string} webhookToken the token for the logging webhook (LOG_WEBHOOK_TOKEN in env if not provided)
+   */
+
+  /**
    * Options for creating a boat
    * @typedef {Object} BoatOptions
+   * @prop {boolean} [debug=false] whether this boat is in debug mode
    * @prop {string} token the token to use for login
    * @prop {ClientOptions} [clientOpts] the options to pass to djs
    * @prop {Snowflake[]} [owners] the owners of the bot
-   * @prop {string} [commandPrefix] the prefix used for standard message commands
+   * @prop {string} [commandPrefix=!] the prefix used for standard message commands
+   * @prop {LogOptions} log the webhook token for logging errors to discord
    */
 
   /**
@@ -27,6 +39,13 @@ class Boat {
    */
   constructor(options) {
     if (!options) throw new Error('Boat options must be provided');
+
+    /**
+     * The options used to launc this boat
+     * @type {Object}
+     */
+    this.options = options;
+    this.options.basepath = __dirname;
 
     /**
      * The discord.js API / Websocket client.
@@ -67,8 +86,17 @@ class Boat {
     /**
      * The token used to connect to discord
      * @type {string}
+     * @private
      */
     this.token = options.token;
+
+    /**
+     * Whether the boat is in debug mode
+     * @type {boolean}
+     */
+    this.debug = options.debug ?? false;
+
+    this.initLog();
   }
 
   /**
@@ -77,14 +105,14 @@ class Boat {
    */
   async boot() {
     // Iniatiate all rafts
-    this.log(module, 'Launching rafts');
+    this.log.debug(module, 'Launching rafts');
     await util.objForEach(rafts, this.launchRaft.bind(this));
 
     // Register all text based commands
-    this.log(module, 'Collecting commands');
+    this.log.debug(module, 'Collecting commands');
     this.setCommands();
 
-    this.log(module, 'Registering events');
+    this.log.debug(module, 'Registering events');
     this.attach();
 
     // Temporary Addition to handle interactions before discord.js does
@@ -97,7 +125,7 @@ class Boat {
     });
     // End addition
 
-    return this.client.login(this.token).catch(err => this.log(module, err));
+    return this.client.login(this.token).catch(err => this.log.critical(module, err));
   }
 
   /**
@@ -107,6 +135,7 @@ class Boat {
    * @private
    */
   async launchRaft(raft, name) {
+    if (name === 'captainsLog') return;
     raft = new raft(this);
     if (!(raft instanceof BaseRaft)) throw new TypeError('All rafts must extend BaseRaft');
     if (!raft.active) return;
@@ -115,12 +144,23 @@ class Boat {
   }
 
   /**
+   * Launches the logging raft
+   */
+  initLog() {
+    const raft = new rafts.captainsLog(this);
+    if (!(raft instanceof BaseRaft)) throw new TypeError('All rafts must extend BaseRaft');
+    if (!raft.active) return;
+    raft.launch();
+    this.rafts.captainsLog = raft;
+  }
+
+  /**
    * Associate all commands from their rafts
    * @private
    */
   setCommands() {
     util.objForEach(this.rafts, raft => {
-      raft.commands.forEach((command, commandName) => {
+      raft.commands?.forEach((command, commandName) => {
         this.commands.set(commandName, command);
       });
     });
@@ -151,12 +191,25 @@ class Boat {
   }
 
   /**
-   * Returns the error and where
-   * @param {Module} source the module sourcing this log
-   * @param {*} message it can be anything lmao
+   * Logging shortcut. Logs to `info` by default. Other levels are properties.
+   * @type {Logging}
+   * @readonly
    */
-  log(source, message) {
-    console.log(`Log from ${source.id ?? source}`, message);
+  get log() {
+    return logBuilder(this);
+  }
+
+  async end(code) {
+    this.log.debug(module, `Shutting Down`);
+    this.ending = true;
+    // Panic out if something broke
+    const panic = setTimeout(() => process.exit(code), 5000);
+    await this.client.destroy();
+    this.rafts.captainsLog.webhook.destroy();
+    /* eslint-disable-next-line no-empty-function */
+    await new Promise(resolve => this.rafts.captainsLog.driver.end(resolve)).catch(() => {});
+    clearTimeout(panic);
+    process.exit(code);
   }
 }
 
