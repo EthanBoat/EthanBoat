@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 'use strict';
 /* We did this without ck's help */
 /* eslint-disable-next-line no-unused-vars */
@@ -9,10 +10,10 @@ const Discord = require('discord.js');
 
 const BaseCommand = require('../../BaseCommand');
 
-class ImgCommand extends BaseCommand {
+class AbstractCommand extends BaseCommand {
   constructor(boat) {
     const options = {
-      name: 'img',
+      name: 'abstract',
       owner: true,
       enabled: true,
     };
@@ -27,10 +28,18 @@ class ImgCommand extends BaseCommand {
 
     context.fillStyle = '#57C7FF';
     context.fillRect(0, 0, width, height);
-    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
+    var i;
+    var maxIterations = 20;
+    for (i = 0; i < maxIterations; i++) {
+      context.fillStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+      context.arc(((Math.random() * 1150) + 1), ((Math.random() * 720) + 1), 1, 0, 2 * Math.PI);
+      context.fill();
+    }
+
+    const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'blue.png');
 
     message.channel.send(attachment);
   }
 }
 
-module.exports = ImgCommand;
+module.exports = AbstractCommand;
