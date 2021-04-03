@@ -2,7 +2,6 @@
 'use strict';
 /* We did this without ck's help */
 /* eslint-disable-next-line no-unused-vars */
-const util = require('util');
 
 const { createCanvas } = require('canvas');
 
@@ -46,9 +45,9 @@ class FractalCommand extends BaseCommand {
             return 0;
         }
 
-        var magnificationFactor = 2500;
-        var panX = 1.5;
-        var panY = 0.2;
+        var magnificationFactor = 2000;
+        var panX = (Math.random() * 2);
+        var panY = (Math.random() * 1);
         for (var x = 0; x < canvas.width; x++) {
             for (var y = 0; y < canvas.height; y++) {
                 var belongsToSet =
@@ -59,12 +58,14 @@ class FractalCommand extends BaseCommand {
                     // Draw a black pixel
                     ctx.fillRect(x, y, 1, 1);
                 } else {
-                    ctx.fillStyle = `hsl(0, 100%, ${belongsToSet}%)`;
+                    ctx.fillStyle = `hsl(165, 100%, ${belongsToSet}%)`;
                     // Draw a colorful pixel
                     ctx.fillRect(x, y, 1, 1);
                 }
             }
         }
+        ctx.translate(width / 2, height / 2);
+        ctx.rotate((Math.floor(Math.random() * 360) * Math.PI / 180));
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'fractal.png');
 
         message.channel.send(attachment);
