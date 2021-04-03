@@ -44,7 +44,7 @@ class StarsCommand extends BaseCommand {
       context.arc(x, y, size, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
-      if (!i === 0 && i <= lines) {
+      if (i > 0 && i <= lines) {
         context.beginPath();
         context.moveTo(x, y);
         context.lineTo(a[i - 1].x, a[i - 1].y);
