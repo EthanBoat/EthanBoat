@@ -31,7 +31,7 @@ class AbstractCommand extends BaseCommand {
     var i;
     var maxIterations = 20;
     for (i = 0; i < maxIterations; i++) {
-      context.fillStyle = 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+      context.fillStyle = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
       context.arc(((Math.random() * 1150) + 1), ((Math.random() * 720) + 1), 1, 0, 2 * Math.PI);
       context.fill();
     }

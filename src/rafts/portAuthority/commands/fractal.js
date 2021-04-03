@@ -54,10 +54,10 @@ class FractalCommand extends BaseCommand {
                 var belongsToSet =
                     checkIfBelongsToMandelbrotSet(x / magnificationFactor - panX,
                         y / magnificationFactor - panY);
-                if (belongsToSet == 0) {
+                if (belongsToSet === 0) {
                     ctx.fillStyle = '#000';
                     // Draw a black pixel
-                    ctx.fillRect(x, y, 1, 1); 
+                    ctx.fillRect(x, y, 1, 1);
                 } else {
                     ctx.fillStyle = `hsl(0, 100%, ${belongsToSet}%)`;
                     // Draw a colorful pixel
