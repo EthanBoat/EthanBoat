@@ -6,7 +6,7 @@ const util = require('../../util');
 const BaseRaft = require('../BaseRaft');
 
 /**
- * The management raft for this boat.
+ * Image commands raft for this boat.
  * @extends {BaseRaft}
  */
 class Lighthouse extends BaseRaft {
