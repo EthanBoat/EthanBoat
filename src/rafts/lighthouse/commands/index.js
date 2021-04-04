@@ -2,7 +2,6 @@
 
 const commands = {};
 
-
 commands.abstract = require('./abstract');
 commands.fractal = require('./fractal');
 commands.stars = require('./stars');
