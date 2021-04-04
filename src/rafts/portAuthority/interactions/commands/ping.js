@@ -22,7 +22,7 @@ class PingInteraction extends BaseInteraction {
 
   async run(interaction) {
     const client = this.boat.client;
-    const description = `🏓 API offset: ${interaction.createdTimestamp - Date.now()}ms. Heartbeat: ${Math.round(client.ws.ping)}ms.`;
+    const description = `🏓 API offset: ${Date.now() - interaction.createdTimestamp}ms. Heartbeat: ${Math.round(client.ws.ping)}ms.`;
     let embed = new MessageEmbed();
     embed.setTitle('Pong').setColor('#F1C40F').setDescription(description);
 
