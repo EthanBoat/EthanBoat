@@ -1,7 +1,4 @@
 'use strict';
-/* We did this without ck's help */
-/* eslint-disable-next-line no-unused-vars */
-const util = require('util');
 
 const { createCanvas } = require('canvas');
 
@@ -26,8 +23,8 @@ class StarsCommand extends BaseCommand {
     const context = canvas.getContext('2d');
 
     const stars = Math.floor(Math.random() * 101) + 75;
-    const lines = Math.floor(Math.random() * 5) + 2;
-    var a = [];
+    const lines = Math.floor(Math.random() * 4) + 3;
+    let a = [];
 
     context.fillStyle = 'black';
     context.fillRect(0, 0, width, height);
@@ -36,11 +33,11 @@ class StarsCommand extends BaseCommand {
     context.lineJoin = 'miter';
     context.lineWidth = 5;
 
-    for (var i = 0; i <= stars; i++) {
-      var x = Math.random(i) * 1200;
-      var y = Math.random(i) * 730;
+    for (let i = 0; i <= stars; i++) {
+      const x = Math.random(i) * width;
+      const y = Math.random(i) * height;
       a.push({ x: x, y: y });
-      var size = (Math.floor(Math.random() * 20) + 10) / 10;
+      const size = (Math.floor(Math.random() * 20) + 10) / 10;
       context.arc(x, y, size, 0, 2 * Math.PI);
       context.fill();
       context.closePath();
