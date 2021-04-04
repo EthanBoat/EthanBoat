@@ -3,6 +3,7 @@
 const { createCanvas } = require('canvas');
 
 const Discord = require('discord.js');
+const util = require('../../../util');
 
 const BaseCommand = require('../../BaseCommand');
 
@@ -16,7 +17,9 @@ class FractalCommand extends BaseCommand {
     super(boat, options);
   }
 
-  run(message) {
+  async run(message) {
+    const responseMsg = await message.channel.send('Generating Fractal');
+    const startTime = Date.now();
     const width = 1200;
     const height = 1200;
     const canvas = createCanvas(width, height);
@@ -45,24 +48,38 @@ class FractalCommand extends BaseCommand {
     const panX = Math.random() * 2;
     const panY = Math.random() * 1;
     for (let x = 0; x < canvas.width; x++) {
-      for (let y = 0; y < canvas.height; y++) {
-        const belongsToSet = checkIfBelongsToMandelbrotSet(x / magnificationFactor - panX, y / magnificationFactor - panY);
-        if (belongsToSet === 0) {
-          ctx.fillStyle = '#000';
-          // Draw a black pixel
-          ctx.fillRect(x, y, 1, 1);
-        } else {
-          ctx.fillStyle = `hsl(165, 100%, ${belongsToSet}%)`;
-          // Draw a colorful pixel
-          ctx.fillRect(x, y, 1, 1);
-        }
-      }
+      /* eslint-disable no-await-in-loop */
+      await util.nonBlockLoop(
+        canvas.height,
+        (iteration, args) => {
+          const belongsToSet = args.checkBelongs(args.x / args.magnificationFactor - args.panX, iteration / args.magnificationFactor - args.panY);
+          if (belongsToSet === 0) {
+            args.ctx.fillStyle = '#000';
+            // Draw a black pixel
+            args.ctx.fillRect(args.x, iteration, 1, 1);
+          } else {
+            args.ctx.fillStyle = `hsl(165, 100%, ${belongsToSet}%)`;
+            // Draw a colorful pixel
+            args.ctx.fillRect(args.x, iteration, 1, 1);
+          }
+        },
+        { ctx, magnificationFactor, panX, panY, x, checkBelongs: checkIfBelongsToMandelbrotSet },
+      );
     }
     ctx.translate(width / 2, height / 2);
     ctx.rotate((Math.floor(Math.random() * 360) * Math.PI) / 180);
+    const endTime = Date.now();
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'fractal.png');
 
-    message.channel.send(attachment);
+    const embed = new Discord.MessageEmbed()
+      .setTitle('Randomly generated fractal')
+      .attachFiles(attachment)
+      .setImage('attachment://fractal.png')
+      .setFooter(`Generation time: ${(endTime - startTime) / 1000}s`)
+      .setAuthor(message.author.tag, message.author.displayAvatarURL());
+
+    if (responseMsg.deletable) responseMsg.delete();
+    message.channel.send(embed);
   }
 }
 
