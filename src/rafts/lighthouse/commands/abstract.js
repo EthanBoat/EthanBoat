@@ -14,7 +14,7 @@ class AbstractCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'abstract',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);

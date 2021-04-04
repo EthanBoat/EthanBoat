@@ -13,7 +13,7 @@ class StarsCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'stars',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);
