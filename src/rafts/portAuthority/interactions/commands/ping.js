@@ -29,7 +29,6 @@ class PingInteraction extends BaseInteraction {
     interaction.reply(embed);
     await new Promise(resolve => setTimeout(resolve, 200));
     const response = await this.boat.client.api.webhooks(this.boat.client.user.id, interaction.token).messages('@original').patch({ data: {} });
-    console.log(response);
     embed.setDescription(`${description} API latency ${SnowflakeUtil.deconstruct(response.id).timestamp - interaction.createdTimestamp}ms.`);
     const apiMessage = APIMessage.create(interaction.webhook, embed).resolveData();
     this.boat.client.api.webhooks(this.boat.client.user.id, interaction.token).messages('@original').patch({ data: apiMessage.data });
