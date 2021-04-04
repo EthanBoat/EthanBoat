@@ -78,10 +78,18 @@ class Boat {
     this.rafts = {};
 
     /**
-     * The text based commands that can be called, and their associated raft
-     * @type {Collection<string, BaseRaft>}
+     * The text based commands that can be called, mapped by name
+     * @type {Collection<string, BaseCommand>}
      */
     this.commands = new Collection();
+
+    /**
+     * The interactions that can be called, mapped by name
+     * @type {Object}
+     */
+    this.interactions = {
+      commands: new Collection(),
+    };
 
     /**
      * The token used to connect to discord
@@ -111,6 +119,10 @@ class Boat {
     // Register all text based commands
     this.log.debug(module, 'Collecting commands');
     this.setCommands();
+
+    // Register all interactions
+    this.log.debug(module, 'Collecting interactions');
+    this.setInteractions();
 
     this.log.debug(module, 'Registering events');
     this.attach();
@@ -167,6 +179,56 @@ class Boat {
   }
 
   /**
+   * Associate all interactions from their rafts
+   * @private
+   */
+  setInteractions() {
+    util.objForEach(this.rafts, raft => {
+      if (!raft.interactions) return;
+      util.objForEach(raft.interactions, (interactions, type) => {
+        interactions.forEach((interaction, name) => {
+          this.interactions[type].set(name, interaction);
+        });
+      });
+    });
+  }
+
+  /**
+   * Register an interaction
+   * @param {number} type the type of the command that is being registered
+   * @param {string} name the name of the command to register
+   * @returns {*}
+   */
+  async registerInteraction(type, name) {
+    let interaction;
+    let path = this.client.api;
+    let promises = [];
+    let results;
+    switch (type) {
+      case 2:
+        interaction = this.interactions.commands.get(name);
+        if (!interaction) return 'No such interaction';
+        if (!interaction.definition) return 'This command has no definition';
+        path = path.applications(this.client.user.id);
+        if (Array.isArray(interaction.guild)) {
+          interaction.guild.forEach(guild => {
+            promises.push(path.guilds(guild).commands.post({ data: interaction.definition }));
+          });
+          results = await Promise.all(promises).catch(err => this.log.warn(module, `Error encountered while registering commmand: ${err.stack ?? err}`));
+          return results.map(result => ({ guild: result.guild_id, id: result.id, name: result.name }));
+        }
+        if (interaction.guild) {
+          path = path.guilds(interaction.guild);
+        }
+        return path.commands
+          .post({ data: interaction.definition })
+          .catch(err => this.log.warn(module, `Error encountered while registering commmand: ${err.stack ?? err}`));
+      default:
+    }
+    return 'Invalid type';
+  }
+
+  /**
    * Attach the event listeners to the socket.
    * @private
    */
@@ -210,6 +272,18 @@ class Boat {
     await new Promise(resolve => this.rafts.captainsLog.driver.end(resolve)).catch(() => {});
     clearTimeout(panic);
     process.exit(code);
+  }
+
+  toJSON() {
+    return {
+      client: 'discordjsClient',
+      prefix: this.prefix,
+      events: this.events,
+      rafts: this.rafts,
+      commands: this.commands,
+      debug: this.debug,
+      token: 'HAHA, you thought!',
+    };
   }
 }
 
