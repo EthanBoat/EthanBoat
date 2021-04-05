@@ -63,7 +63,7 @@ class Boat {
      * The prefix used for standard message commands
      * @type {string}
      */
-    this.prefix = options.commandPrefix ?? '<';
+    this.prefix = options.commandPrefix ?? '!';
 
     /**
      * The events that this client will handle
