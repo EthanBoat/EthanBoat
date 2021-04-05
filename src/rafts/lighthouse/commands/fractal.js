@@ -11,7 +11,7 @@ class FractalCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'fractal',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);
