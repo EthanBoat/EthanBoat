@@ -30,10 +30,13 @@ class SpaceCommand extends BaseCommand {
     //message.channel.send(`${stars.data.url}`)
     let embed = new Discord.MessageEmbed()
       .setTitle(`${stars.data.title}`)
+      .setURL('https://apod.nasa.gov/')
       .setColor('#00FF00')
       .setDescription(`${stars.data.explanation}`)
       .setImage(`${stars.data.hdurl}`)
       .addField('Date', `${stars.data.date}`)
+      .setTimestamp()
+      .setFooter('nasa.gov', 'https://www.nasa.gov/sites/all/themes/custom/nasatwo/images/nasa-logo.svg')
     message.channel.send(embed);
   }
 }
