@@ -19,7 +19,7 @@ class PingCommand extends BaseCommand {
 
   run(message) {
     const client = this.boat.client;
-    const description = `🏓 API offset: ${message.createdTimestamp - Date.now()}ms. Heartbeat: ${Math.round(client.ws.ping)}ms.`;
+    const description = `🏓 API offset: ${Date.now() - message.createdTimestamp}ms. Heartbeat: ${Math.round(client.ws.ping)}ms.`;
     let embed = new Discord.MessageEmbed()
       .setTitle('Pong')
       .setColor('#F1C40F')

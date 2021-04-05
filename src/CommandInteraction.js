@@ -1,6 +1,6 @@
 'use strict';
 
-const { APIMessage, Snowflake, User } = require('discord.js');
+const { APIMessage, Snowflake, User, WebhookClient } = require('discord.js');
 const Interaction = require('./Interaction');
 
 /**
@@ -22,6 +22,8 @@ class CommandInteraction extends Interaction {
      * @readonly
      */
     this.id = data.id;
+
+    this.type = data.type;
 
     /**
      * The token of this interaction.
@@ -78,6 +80,12 @@ class CommandInteraction extends Interaction {
      * @readonly
      */
     this.member = this.guild?.members.add(data.member, false) ?? null;
+
+    /**
+     * An associated webhook client, can be used to create deferred replies
+     * @type {WebhookClient}
+     */
+    this.webhook = new WebhookClient(this.client.user.id, this.token);
   }
 
   /**
