@@ -9,7 +9,7 @@ class SpaceCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'space',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);
@@ -19,7 +19,7 @@ class SpaceCommand extends BaseCommand {
     async function explore() {
       let url = `https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`;
       const stars = await axios.get(url);
-      console.log(stars);
+      // Console.log(stars);
       return stars;
     }
     const stars = await explore();
