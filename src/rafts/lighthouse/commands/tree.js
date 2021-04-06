@@ -10,13 +10,15 @@ class TreeCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'tree',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);
   }
 
   async run(message) {
+    const responseMsg = await message.channel.send('Generating Tree');
+    const startTime = Date.now();
     const width = 600;
     const height = 600;
     let canvas = createCanvas(width, height);
@@ -80,9 +82,18 @@ class TreeCommand extends BaseCommand {
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(0, 0, width, height);
+    const endTime = Date.now();
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'tree.png');
 
-    message.channel.send(attachment);
+    const embed = new Discord.MessageEmbed()
+      .setTitle('Randomly generated tree')
+      .attachFiles(attachment)
+      .setImage('attachment://tree.png')
+      .setFooter(`Generation time: ${(endTime - startTime) / 1000}s`)
+      .setAuthor(message.author.tag, message.author.displayAvatarURL());
+
+    if (responseMsg.deletable) responseMsg.delete();
+    message.channel.send(embed);
   }
 }
 
