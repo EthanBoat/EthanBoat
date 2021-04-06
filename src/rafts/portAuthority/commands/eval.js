@@ -1,7 +1,7 @@
 'use strict';
 
 const util = require('util');
-
+const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class EvalCommand extends BaseCommand {
@@ -34,19 +34,8 @@ class EvalCommand extends BaseCommand {
     }
     let cleaned = await this.clean(util.inspect(evaluated, { depth }));
     if (cleaned.length > 1950) {
-      const cleanedLines = cleaned.split('\n');
-      let toSend = '';
-      cleanedLines.forEach(line => {
-        toSend += `\n${line}`;
-        if (toSend.length > 1600) {
-          message.channel.send(`\`\`\`js${toSend}\n\`\`\``);
-          toSend = '';
-        }
-      });
-      if (toSend.length) {
-        return message.channel.send(`\`\`\`js${toSend}\n\`\`\``);
-      }
-      return null;
+      let attachment = new Discord.MessageAttachment(Buffer.from(cleaned, 'utf-8'), 'eval.js');
+      return message.channel.send(attachment);
     }
     return message.channel.send(`\`\`\`js\n${cleaned}\n\`\`\``);
   }
