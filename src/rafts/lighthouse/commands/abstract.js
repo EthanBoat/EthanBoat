@@ -3,6 +3,7 @@
 const { createCanvas } = require('canvas');
 
 const Discord = require('discord.js');
+const util = require('../../../util');
 
 const BaseCommand = require('../../BaseCommand');
 
@@ -16,7 +17,7 @@ class AbstractCommand extends BaseCommand {
     super(boat, options);
   }
 
-  run(message) {
+  async run(message) {
     const width = 1200;
     const height = 730;
     const canvas = createCanvas(width, height);
@@ -25,11 +26,15 @@ class AbstractCommand extends BaseCommand {
     context.fillStyle = '#57C7FF';
     context.fillRect(0, 0, width, height);
     const maxIterations = 20;
-    for (let i = 0; i < maxIterations; i++) {
-      context.fillStyle = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
-      context.arc(Math.random() * 1150 + 1, Math.random() * 720 + 1, 1, 0, 2 * Math.PI);
-      context.fill();
-    }
+    await util.nonBlockLoop(
+      maxIterations,
+      (i, args) => {
+        args.context.fillStyle = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
+        args.context.arc(Math.random() * 1150 + 1, Math.random() * 720 + 1, 1, 0, 2 * Math.PI);
+        args.context.fill();
+      },
+      { context },
+    );
 
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'blue.png');
 

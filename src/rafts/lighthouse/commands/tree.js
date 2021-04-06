@@ -16,7 +16,7 @@ class TreeCommand extends BaseCommand {
     super(boat, options);
   }
 
-  run(message) {
+  async run(message) {
     const width = 600;
     const height = 600;
     let canvas = createCanvas(width, height);
@@ -24,7 +24,11 @@ class TreeCommand extends BaseCommand {
     let curve = 10;
     let curve2 = 0;
 
-    function drawTree(startX, startY, len, angle, branchWidth, color1, color2) {
+    function processEvents() {
+      return new Promise(resolve => setImmediate(resolve));
+    }
+
+    async function drawTree(startX, startY, len, angle, branchWidth, color1, color2) {
       ctx.beginPath();
       ctx.save();
       ctx.strokeStyle = color1;
@@ -53,8 +57,10 @@ class TreeCommand extends BaseCommand {
         return;
       }
 
-      drawTree(0, -len, len * 0.7, angle + curve, branchWidth * 0.6);
-      drawTree(0, -len, len * 0.7, angle - curve, branchWidth * 0.6);
+      await processEvents();
+      await drawTree(0, -len, len * 0.7, angle + curve, branchWidth * 0.6);
+      await processEvents();
+      await drawTree(0, -len, len * 0.7, angle - curve, branchWidth * 0.6);
 
       ctx.restore();
     }
@@ -69,7 +75,7 @@ class TreeCommand extends BaseCommand {
     const color2 = `rgb(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)})`;
     curve = Math.random() * 25 + 3;
     curve2 = Math.random() * 10;
-    drawTree(centerPointX, canvas.height - 80, len, angle, branchWidth, color1, color2);
+    await drawTree(centerPointX, canvas.height - 80, len, angle, branchWidth, color1, color2);
 
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = '#FFFFFF';
