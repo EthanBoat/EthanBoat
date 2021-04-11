@@ -8,7 +8,7 @@ class HelloCommand extends BaseCommand {
   constructor(boat) {
     const options = {
       name: 'hello',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(boat, options);

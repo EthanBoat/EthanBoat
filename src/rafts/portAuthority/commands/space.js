@@ -29,7 +29,7 @@ class SpaceCommand extends BaseCommand {
       .setURL('https://apod.nasa.gov/')
       .setColor('#00FF00')
       .setDescription(`${stars.data.explanation}`)
-      .setImage(`${stars.data.url}`)
+      .setImage(`${stars.data.hdurl}`)
       .addField('Date', `${stars.data.date}`)
       .setTimestamp()
       .setFooter('nasa.gov', 'https://cdn.discordapp.com/app-assets/811111315988283413/811114038036529152.png');
