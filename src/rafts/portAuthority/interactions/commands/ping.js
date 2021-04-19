@@ -9,7 +9,7 @@ const definition = {
 };
 
 class PingInteraction extends BaseInteraction {
-  constructor(boat) {
+  constructor(raft) {
     const info = {
       name: 'ping',
       guild: '826325501605969990',
@@ -17,7 +17,7 @@ class PingInteraction extends BaseInteraction {
       enabled: true,
       definition,
     };
-    super(boat, info);
+    super(raft, info);
   }
 
   async run(interaction) {

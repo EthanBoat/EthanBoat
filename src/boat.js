@@ -281,6 +281,7 @@ class Boat {
       events: this.events,
       rafts: this.rafts,
       commands: this.commands,
+      interactions: this.interactions,
       debug: this.debug,
       token: 'HAHA, you thought!',
     };

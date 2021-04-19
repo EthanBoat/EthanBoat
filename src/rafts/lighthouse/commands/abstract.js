@@ -8,13 +8,13 @@ const util = require('../../../util');
 const BaseCommand = require('../../BaseCommand');
 
 class AbstractCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'abstract',
       owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   async run(message) {

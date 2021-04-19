@@ -8,13 +8,13 @@ const util = require('../../../util');
 const BaseCommand = require('../../BaseCommand');
 
 class FractalCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'fractal',
       owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   async run(message) {

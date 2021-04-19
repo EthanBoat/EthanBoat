@@ -7,8 +7,8 @@ const InteractionTypes = {
 };
 
 class BaseInteraction extends BaseCommand {
-  constructor(boat, options) {
-    super(boat, options);
+  constructor(raft, options) {
+    super(raft, options);
 
     this.owner = undefined;
 

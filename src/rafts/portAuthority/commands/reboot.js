@@ -3,13 +3,13 @@
 const BaseCommand = require('../../BaseCommand');
 
 class RebootCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const info = {
       name: 'reboot',
       owner: true,
       enabled: true,
     };
-    super(boat, info);
+    super(raft, info);
   }
 
   async run(message) {

@@ -7,13 +7,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class StarsCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'stars',
       owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   run(message) {

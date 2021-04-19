@@ -7,13 +7,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class TreeCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'tree',
       owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   async run(message) {
