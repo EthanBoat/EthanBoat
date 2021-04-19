@@ -27,7 +27,7 @@ class SpaceCommand extends BaseCommand {
     let embed = new Discord.MessageEmbed()
       .setTitle(`${stars.data.title}`)
       .setURL('https://apod.nasa.gov/')
-      .setColor('#00FF00')
+      .setColor('#0B3D91')
       .setDescription(`${stars.data.explanation}`)
       .setImage(`${stars.data.url}`)
       .addField('Date', `${stars.data.date}`)
