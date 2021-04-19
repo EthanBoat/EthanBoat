@@ -1,7 +1,7 @@
 'use strict';
 
 const util = require('util');
-
+const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class EvalCommand extends BaseCommand {
@@ -16,10 +16,16 @@ class EvalCommand extends BaseCommand {
 
   async run(message, args) {
     let depth = 2;
+    let nf = false;
     if (args.includes('--depth') || args.includes('-d')) {
       const index = args.indexOf('--depth') > -1 ? args.indexOf('--depth') : args.indexOf('-d');
       depth = args[index + 1];
       args.splice(index, 2);
+    }
+    if (args.includes('--nofile') || args.includes('-n')) {
+      const index = args.indexOf('--nofile') > -1 ? args.indexOf('--nofile') : args.indexOf('-n');
+      nf = true;
+      args.splice(index, 1);
     }
     /* eslint-disable-next-line no-unused-vars */
     const client = this.boat.client;
@@ -33,20 +39,12 @@ class EvalCommand extends BaseCommand {
       evaluated = this.boat.toJSON();
     }
     let cleaned = await this.clean(util.inspect(evaluated, { depth }));
-    if (cleaned.length > 1950) {
-      const cleanedLines = cleaned.split('\n');
-      let toSend = '';
-      cleanedLines.forEach(line => {
-        toSend += `\n${line}`;
-        if (toSend.length > 1600) {
-          message.channel.send(`\`\`\`js${toSend}\n\`\`\``);
-          toSend = '';
-        }
-      });
-      if (toSend.length) {
-        return message.channel.send(`\`\`\`js${toSend}\n\`\`\``);
+    if (cleaned.split(/\r\n|\r|\n/).length > 8) {
+      if (nf === true) {
+        return message.channel.send(`\`\`\`js\n${cleaned.slice(0, 1950)}\n\`\`\``);
       }
-      return null;
+      let attachment = new Discord.MessageAttachment(Buffer.from(cleaned, 'utf-8'), 'eval.js');
+      return message.channel.send('Eval output too long, see the attached file', attachment);
     }
     return message.channel.send(`\`\`\`js\n${cleaned}\n\`\`\``);
   }
