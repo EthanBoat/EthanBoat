@@ -5,13 +5,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class EvalCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'eval',
       owner: true,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   async run(message, args) {
@@ -51,14 +51,43 @@ class EvalCommand extends BaseCommand {
 
   clean(text) {
     if (typeof text === 'string') {
-      return text
-        .replace(/` /g, `\`${String.fromCharCode(8203)}`)
-        .replace(/@/g, `@${String.fromCharCode(8203)}`)
-        .replace(this.boat.token, 'Redacted')
-        .replace(this.boat.options.log.webhookToken, 'Redacted');
+      const tokens = findTokens(this.boat.options);
+      tokens.forEach(token => (text = text.replace(new RegExp(token, 'gi'), 'Redacted')));
+      return text.replace(/` /g, `\`${String.fromCharCode(8203)}`);
     }
     return text;
   }
+}
+
+const opts = {
+  option1: 'hello',
+  option2: {
+    option3: 'bye',
+    optionToken: 'alsdkjfhal sdfkjhasd',
+  },
+  tokens: {
+    nasa: 'bye',
+    cat: 'alsdkjfhal sdfkjhasd',
+  },
+  optionSecret: 'aksjdfh alsdkfjha',
+};
+
+findTokens(opts);
+
+function findTokens(options, includeAll = false) {
+  let tokens = [];
+  const keys = Object.keys(options);
+  keys.forEach(key => {
+    if (typeof options[key] === 'object') {
+      const nextIncludesAll = includeAll || key.toLowerCase().includes('token') || key.toLowerCase().includes('secret');
+      return (tokens = tokens.concat(findTokens(options[key], nextIncludesAll)));
+    }
+    if (includeAll || key.toLowerCase().includes('token') || key.toLowerCase().includes('secret')) {
+      return tokens.push(options[key]);
+    }
+    return tokens;
+  });
+  return tokens;
 }
 
 module.exports = EvalCommand;

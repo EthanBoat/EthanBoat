@@ -5,13 +5,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class HelloCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'hello',
       owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   run(message) {

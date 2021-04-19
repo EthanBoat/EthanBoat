@@ -1,36 +1,28 @@
 'use strict';
 
-const axios = require('axios');
-
 const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class SpaceCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'space',
-      owner: true,
+      owner: false,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   async run(message) {
-    async function explore() {
-      let url = `https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_API_KEY}`;
-      const stars = await axios.get(url);
-      console.log(stars);
-      return stars;
-    }
-    const stars = await explore();
+    const stars = await this.raft.apis.nasa.getAPOD();
     // Message.channel.send(`${stars.data.url}`)
     let embed = new Discord.MessageEmbed()
-      .setTitle(`${stars.data.title}`)
+      .setTitle(`${stars.title}`)
       .setURL('https://apod.nasa.gov/')
-      .setColor('#00FF00')
-      .setDescription(`${stars.data.explanation}`)
-      .setImage(`${stars.data.hdurl}`)
-      .addField('Date', `${stars.data.date}`)
+      .setColor('#0B3D91')
+      .setDescription(`${stars.explanation}`)
+      .setImage(`${stars.url}`)
+      .addField('Date', `${stars.date}`)
       .setTimestamp()
       .setFooter('nasa.gov', 'https://cdn.discordapp.com/app-assets/811111315988283413/811114038036529152.png');
     message.channel.send(embed);

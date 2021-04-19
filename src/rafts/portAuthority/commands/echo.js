@@ -6,13 +6,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class EchoCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'echo',
       owner: true,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   run(message, args) {

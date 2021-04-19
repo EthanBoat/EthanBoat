@@ -5,14 +5,14 @@ const { MessageEmbed } = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class UpdateCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const info = {
       name: 'update',
       description: 'updates to the latest master (make sure .env is still good!)',
       owner: true,
       enabled: true,
     };
-    super(boat, info);
+    super(raft, info);
   }
 
   async run(message) {

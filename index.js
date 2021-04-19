@@ -18,6 +18,10 @@ const config = {
     verbose: true,
     webhookToken: process.env.LOG_WEBHOOK,
   },
+  commandPrefix: process.env.DISCORD_PREFIX,
+  tokens: {
+    nasa: process.env.NASA_API_KEY,
+  },
 };
 
 const ethanBoat = new shipyard(config);

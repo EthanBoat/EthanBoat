@@ -8,13 +8,13 @@ const Discord = require('discord.js');
 const BaseCommand = require('../../BaseCommand');
 
 class PingCommand extends BaseCommand {
-  constructor(boat) {
+  constructor(raft) {
     const options = {
       name: 'ping',
       owner: true,
       enabled: true,
     };
-    super(boat, options);
+    super(raft, options);
   }
 
   run(message) {
