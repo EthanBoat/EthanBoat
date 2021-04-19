@@ -8,7 +8,7 @@ class HelloCommand extends BaseCommand {
   constructor(raft) {
     const options = {
       name: 'hello',
-      owner: true,
+      owner: false,
       enabled: true,
     };
     super(raft, options);
