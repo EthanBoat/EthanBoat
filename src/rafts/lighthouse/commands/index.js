@@ -8,5 +8,6 @@ commands.stars = require('./stars');
 commands.tree = require('./tree');
 commands.space = require('./space');
 commands.puppy = require('./puppy');
+commands.test = require('./test');
 
 module.exports = commands;
