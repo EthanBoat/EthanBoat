@@ -34,7 +34,12 @@ class EvalCommand extends BaseCommand {
       message.channel.send(`Error: Execution of command refused`);
       return message.channel.send('https://media.tenor.com/images/59de4445b8319b9936377ec90dc5b9dc/tenor.gif');
     }
-    let evaluated = await eval(args);
+    let evaluated;
+    try {
+      evaluated = await eval(args);
+    } catch (error) {
+      evaluated = error;
+    }
     if (evaluated === this.boat) {
       evaluated = this.boat.toJSON();
     }
@@ -58,21 +63,6 @@ class EvalCommand extends BaseCommand {
     return text;
   }
 }
-
-const opts = {
-  option1: 'hello',
-  option2: {
-    option3: 'bye',
-    optionToken: 'alsdkjfhal sdfkjhasd',
-  },
-  tokens: {
-    nasa: 'bye',
-    cat: 'alsdkjfhal sdfkjhasd',
-  },
-  optionSecret: 'aksjdfh alsdkfjha',
-};
-
-findTokens(opts);
 
 function findTokens(options, includeAll = false) {
   let tokens = [];

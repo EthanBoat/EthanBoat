@@ -25,8 +25,8 @@ class BaseInteraction extends BaseCommand {
     this.type = options.type;
 
     /**
-     * The definition for this interaction that gets passed to discord to register it
-     * @type {Object?}
+     * The definition for this interaction that gets passed to discord to register / send it
+     * @type {Object|Function?}
      */
     this.definition = options.definition;
   }
