@@ -13,7 +13,6 @@ class PingInteraction extends BaseInteraction {
     const info = {
       name: 'ping',
       guild: '826325501605969990',
-      type: BaseInteraction.InteractionTypes.APPLICATION_COMMAND,
       enabled: true,
       definition,
     };

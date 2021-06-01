@@ -2,10 +2,6 @@
 
 const BaseCommand = require('./BaseCommand');
 
-const InteractionTypes = {
-  APPLICATION_COMMAND: 2,
-};
-
 class BaseInteraction extends BaseCommand {
   constructor(raft, options) {
     super(raft, options);
@@ -17,12 +13,6 @@ class BaseInteraction extends BaseCommand {
      * @type {(Snowflake|Snowflake[])?}
      */
     this.guild = options.guild;
-
-    /**
-     * The type of interaction that this handler is expecting
-     * @type {Number}
-     */
-    this.type = options.type;
 
     /**
      * The definition for this interaction that gets passed to discord to register / send it
@@ -41,4 +31,3 @@ class BaseInteraction extends BaseCommand {
 }
 
 module.exports = BaseInteraction;
-module.exports.InteractionTypes = InteractionTypes;

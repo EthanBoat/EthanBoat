@@ -175,7 +175,6 @@ class Boat {
    */
   setInteractions() {
     util.objForEach(this.rafts, raft => {
-      if (!raft.interactions) return;
       util.objForEach(raft.interactions, (interactions, type) => {
         interactions.forEach((interaction, name) => {
           this.interactions[type].set(name, interaction);

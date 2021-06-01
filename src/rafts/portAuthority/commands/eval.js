@@ -66,6 +66,7 @@ class EvalCommand extends BaseCommand {
 
 function findTokens(options, includeAll = false) {
   let tokens = [];
+  if (options === null) return tokens;
   const keys = Object.keys(options);
   keys.forEach(key => {
     if (typeof options[key] === 'object') {
@@ -73,6 +74,7 @@ function findTokens(options, includeAll = false) {
       return (tokens = tokens.concat(findTokens(options[key], nextIncludesAll)));
     }
     if (includeAll || key.toLowerCase().includes('token') || key.toLowerCase().includes('secret')) {
+      if (typeof options[key] === 'undefined') return tokens;
       return tokens.push(options[key]);
     }
     return tokens;

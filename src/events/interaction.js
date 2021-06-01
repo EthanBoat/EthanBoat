@@ -37,7 +37,7 @@ module.exports = async (boat, interaction) => {
 
 function verifyCustomId(id, components) {
   if (!components) return true;
-  const found = components.find(component => component.type === 'ACTION_ROW' && component.components.find(c => c.custom_id === id));
+  const found = components.find(component => component.type === 'ACTION_ROW' && component.components.find(c => c.customID === id));
   if (found) return true;
   return false;
 }
