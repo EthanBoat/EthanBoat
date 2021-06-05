@@ -24,7 +24,7 @@ class PuppyCommand extends BaseCommand {
       breed = args[0];
       if (breed === 'random') breed = undefined;
     }
-    const pupper = await this.raft.apis.dog.getRandom(breed, subbreed).catch(err => this.boat.log.verbose(module, `Error getting pupper ${err}`));
+    const pupper = await this.raft.apis.dog.getRandom(breed, subbreed).catch(err => this.boat.log.verbose(module, `Error getting pupper`, err));
 
     if (!pupper) {
       if (subbreed) {
@@ -41,7 +41,8 @@ class PuppyCommand extends BaseCommand {
 
     const embed = new Discord.MessageEmbed().setImage(`${pupper.message}`).setColor('#0000FF');
     embed.setDescription(`It's a freaking pupper`).setTimestamp(Date.now());
-    message.channel.send(embed);
+    const components = this.raft.interactions.buttonComponents.get('REGENERATE_PUPPY').definition(breed, subbreed);
+    await message.channel.send({ embed, components });
   }
 }
 

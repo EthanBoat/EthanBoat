@@ -3,7 +3,6 @@
 // Import dependencies
 const { Client, Collection } = require('discord.js');
 const events = require('./events');
-const interactionHandler = require('./interactionHandler');
 const rafts = require('./rafts');
 const BaseRaft = require('./rafts/BaseRaft');
 const logBuilder = require('./rafts/captainsLog/LogRouter');
@@ -89,6 +88,8 @@ class Boat {
      */
     this.interactions = {
       commands: new Collection(),
+      buttonComponents: new Collection(),
+      selectMenuComponents: new Collection(),
     };
 
     /**
@@ -126,16 +127,6 @@ class Boat {
 
     this.log.debug(module, 'Registering events');
     this.attach();
-
-    // Temporary Addition to handle interactions before discord.js does
-    this.client.ws.on('INTERACTION_CREATE', async packet => {
-      const result = await interactionHandler(this.client, packet);
-
-      await this.client.api.interactions(packet.id, packet.token).callback.post({
-        data: result,
-      });
-    });
-    // End addition
 
     return this.client.login(this.token).catch(err => this.log.critical(module, err));
   }
@@ -184,48 +175,12 @@ class Boat {
    */
   setInteractions() {
     util.objForEach(this.rafts, raft => {
-      if (!raft.interactions) return;
       util.objForEach(raft.interactions, (interactions, type) => {
         interactions.forEach((interaction, name) => {
           this.interactions[type].set(name, interaction);
         });
       });
     });
-  }
-
-  /**
-   * Register an interaction
-   * @param {number} type the type of the command that is being registered
-   * @param {string} name the name of the command to register
-   * @returns {*}
-   */
-  async registerInteraction(type, name) {
-    let interaction;
-    let path = this.client.api;
-    let promises = [];
-    let results;
-    switch (type) {
-      case 2:
-        interaction = this.interactions.commands.get(name);
-        if (!interaction) return 'No such interaction';
-        if (!interaction.definition) return 'This command has no definition';
-        path = path.applications(this.client.user.id);
-        if (Array.isArray(interaction.guild)) {
-          interaction.guild.forEach(guild => {
-            promises.push(path.guilds(guild).commands.post({ data: interaction.definition }));
-          });
-          results = await Promise.all(promises).catch(err => this.log.warn(module, `Error encountered while registering commmand: ${err.stack ?? err}`));
-          return results.map(result => ({ guild: result.guild_id, id: result.id, name: result.name }));
-        }
-        if (interaction.guild) {
-          path = path.guilds(interaction.guild);
-        }
-        return path.commands
-          .post({ data: interaction.definition })
-          .catch(err => this.log.warn(module, `Error encountered while registering commmand: ${err.stack ?? err}`));
-      default:
-    }
-    return 'Invalid type';
   }
 
   /**
