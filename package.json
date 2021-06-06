@@ -11,7 +11,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "discord.js-docgen": "git+https://github.com/discordjs/docgen.git",
+    "@discordjs/docgen": "^0.10.0",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
