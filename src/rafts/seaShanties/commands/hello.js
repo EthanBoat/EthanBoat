@@ -22,7 +22,7 @@ class HelloCommand extends BaseCommand {
       .setAuthor(message.author.tag, message.author.displayAvatarURL())
       .setImage('https://i.imgur.com/SQUhP5T.gif');
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 }
 

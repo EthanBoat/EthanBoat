@@ -87,13 +87,12 @@ class TreeCommand extends BaseCommand {
 
     const embed = new Discord.MessageEmbed()
       .setTitle('Randomly generated tree')
-      .attachFiles(attachment)
       .setImage('attachment://tree.png')
       .setFooter(`Generation time: ${(endTime - startTime) / 1000}s`)
       .setAuthor(message.author.tag, message.author.displayAvatarURL());
 
     if (responseMsg.deletable) responseMsg.delete();
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed], files: [attachment] });
   }
 }
 

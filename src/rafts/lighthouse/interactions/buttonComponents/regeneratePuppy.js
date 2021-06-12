@@ -21,12 +21,12 @@ class RegeneratePuppyInteraction extends BaseInteraction {
     await interaction.deferUpdate();
     const pupper = await this.raft.apis.dog.getRandom(breed, subbreed).catch(err => this.boat.log.verbose(module, `Error getting pupper`, err.response?.data));
     if (!pupper) {
-      interaction.followUp('The puppers went missing :(', { ephemeral: true });
+      interaction.followUp({ content: 'The puppers went missing :(', ephemeral: true });
       return;
     }
     const embed = new MessageEmbed().setImage(`${pupper.message}`).setColor('#0000FF');
     embed.setDescription(`It's a freaking pupper`).setTimestamp();
-    interaction.editReply(embed);
+    interaction.editReply({ embeds: [embed] });
   }
 
   generateDefinition(breed, subbreed) {

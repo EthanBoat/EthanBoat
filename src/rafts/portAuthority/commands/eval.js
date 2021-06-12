@@ -49,7 +49,7 @@ class EvalCommand extends BaseCommand {
         return message.channel.send(`\`\`\`js\n${cleaned.slice(0, 1950)}\n\`\`\``);
       }
       let attachment = new Discord.MessageAttachment(Buffer.from(cleaned, 'utf-8'), 'eval.js');
-      return message.channel.send('Eval output too long, see the attached file', attachment);
+      return message.channel.send({ content: 'Eval output too long, see the attached file', files: [attachment] });
     }
     return message.channel.send(`\`\`\`js\n${cleaned}\n\`\`\``);
   }

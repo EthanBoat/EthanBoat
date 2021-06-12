@@ -42,7 +42,7 @@ class PuppyCommand extends BaseCommand {
     const embed = new Discord.MessageEmbed().setImage(`${pupper.message}`).setColor('#0000FF');
     embed.setDescription(`It's a freaking pupper`).setTimestamp(Date.now());
     const components = this.raft.interactions.buttonComponents.get('REGENERATE_PUPPY').definition(breed, subbreed);
-    await message.channel.send({ embed, components });
+    await message.channel.send({ embeds: [embed], components });
   }
 }
 

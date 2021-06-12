@@ -15,7 +15,7 @@ class test extends BaseCommand {
 
   run(message) {
     let embed = new Discord.MessageEmbed().setDescription('Testing, testing, can anyone hear me?');
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 }
 

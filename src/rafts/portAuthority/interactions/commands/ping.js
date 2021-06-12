@@ -25,10 +25,10 @@ class PingInteraction extends BaseInteraction {
     let embed = new MessageEmbed();
     embed.setTitle('Pong').setColor('#F1C40F').setDescription(description);
 
-    await interaction.reply(embed);
+    await interaction.reply({ embeds: [embed] });
     const response = await interaction.fetchReply();
     embed.setDescription(`${description} API latency ${response.createdTimestamp - interaction.createdTimestamp}ms.`);
-    interaction.editReply(embed);
+    interaction.editReply({ embeds: [embed] });
   }
 }
 

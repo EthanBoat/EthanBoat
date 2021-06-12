@@ -22,14 +22,14 @@ class UpdateCommand extends BaseCommand {
     stdout = clean(stdout);
     stderr = clean(stderr);
     embed.setTitle('Git Pulled').setDescription(`\`\`\`bash\n${stdout}\n${stderr}\`\`\``);
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
 
-    ({ stdout, stderr } = await promiseExec('npm i').catch(err => message.channel.send(`\`\`\`bash\n${err}\`\`\``)));
+    ({ stdout, stderr } = await promiseExec('npm ci').catch(err => message.channel.send(`\`\`\`bash\n${err}\`\`\``)));
     if (!stdout && !stderr) return;
     stdout = clean(stdout);
     stderr = clean(stderr);
     embed.setTitle('Packages Updated').setDescription(`\`\`\`bash\n${stdout}\n${stderr}\`\`\``);
-    await message.channel.send(embed);
+    await message.channel.send({ embeds: [embed] });
   }
 }
 

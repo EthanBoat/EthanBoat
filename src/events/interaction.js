@@ -11,7 +11,7 @@ module.exports = async (boat, interaction) => {
   }
   if (interaction.isMessageComponent()) {
     if (!verifyCustomId(interaction.customID, interaction.message.components)) {
-      interaction.reply('You think you are sneaky huh, well, no such luck here!', { ephemeral: true });
+      interaction.reply({ content: 'You think you are sneaky huh, well, no such luck here!', ephemeral: true });
       return;
     }
     const name = ComponentFunctions[Number(interaction.customID.split(':')[0])];
@@ -23,7 +23,10 @@ module.exports = async (boat, interaction) => {
   }
 
   if (!handler) {
-    interaction.reply('This command has no associated action! Please contact the developer if it is supposed to be doing something!', { ephemeral: true });
+    interaction.reply({
+      content: 'This command has no associated action! Please contact the developer if it is supposed to be doing something!',
+      ephemeral: true,
+    });
     return;
   }
 

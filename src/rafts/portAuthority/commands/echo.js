@@ -23,7 +23,7 @@ class EchoCommand extends BaseCommand {
       .setFooter('Made by Pilottoaster, Ethan, Markens123 without ck')
       .setAuthor(message.author.tag, message.author.displayAvatarURL());
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 }
 

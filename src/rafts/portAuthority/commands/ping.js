@@ -26,8 +26,8 @@ class PingCommand extends BaseCommand {
       .setDescription(description)
       .setFooter('Made by Pilot, Ethan, Markens without ck');
 
-    message.channel.send(embed).then(msg => {
-      msg.edit(embed.setDescription(`${description} API latency ${msg.createdTimestamp - message.createdTimestamp}ms.`));
+    message.channel.send({ embeds: [embed] }).then(msg => {
+      msg.edit({ embeds: [embed.setDescription(`${description} API latency ${msg.createdTimestamp - message.createdTimestamp}ms.`)] });
     });
   }
 }

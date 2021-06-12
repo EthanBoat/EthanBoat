@@ -54,12 +54,11 @@ class StarsCommand extends BaseCommand {
     let embed = new Discord.MessageEmbed()
       .setTitle('Random Stars')
       .setColor('000001')
-      .attachFiles(attachment)
       .setImage('attachment://image.png')
       .setFooter(`Dots: ${stars} | Lines: ${lines}`)
       .setAuthor(message.author.tag, message.author.displayAvatarURL());
 
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed], files: [attachment] });
   }
 }
 

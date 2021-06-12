@@ -14,7 +14,11 @@ class SpaceCommand extends BaseCommand {
   }
 
   async run(message) {
-    const stars = await this.raft.apis.nasa.getAPOD();
+    const stars = await this.raft.apis.nasa.getAPOD().catch(err => this.boat.log.verbose(module, `Error getting APOD`, err.response?.data));
+    if (!stars) {
+      message.channel.send('Looks like NASA took the day off.');
+      return;
+    }
     // Message.channel.send(`${stars.data.url}`)
     let embed = new Discord.MessageEmbed()
       .setTitle(`${stars.title}`)
@@ -25,7 +29,7 @@ class SpaceCommand extends BaseCommand {
       .addField('Date', `${stars.date}`)
       .setTimestamp()
       .setFooter('nasa.gov', 'https://cdn.discordapp.com/app-assets/811111315988283413/811114038036529152.png');
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed] });
   }
 }
 

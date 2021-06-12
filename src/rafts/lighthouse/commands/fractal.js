@@ -73,13 +73,12 @@ class FractalCommand extends BaseCommand {
 
     const embed = new Discord.MessageEmbed()
       .setTitle('Randomly generated fractal')
-      .attachFiles(attachment)
       .setImage('attachment://fractal.png')
       .setFooter(`Generation time: ${(endTime - startTime) / 1000}s`)
       .setAuthor(message.author.tag, message.author.displayAvatarURL());
 
     if (responseMsg.deletable) responseMsg.delete();
-    message.channel.send(embed);
+    message.channel.send({ embeds: [embed], files: [attachment] });
   }
 }
 

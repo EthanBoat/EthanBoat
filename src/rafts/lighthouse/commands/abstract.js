@@ -38,7 +38,7 @@ class AbstractCommand extends BaseCommand {
 
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'blue.png');
 
-    message.channel.send(attachment);
+    message.channel.send({ files: [attachment] });
   }
 }
 
