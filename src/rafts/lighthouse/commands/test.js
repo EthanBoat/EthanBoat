@@ -15,7 +15,8 @@ class test extends BaseCommand {
 
   run(message) {
     let embed = new Discord.MessageEmbed().setDescription('Testing, testing, can anyone hear me?');
-    message.channel.send({ embeds: [embed] });
+    let components = [new Discord.MessageActionRow({ components: [{ type: 'BUTTON', customID: 'whatever you want', label: 'test', style: 'SUCCESS' }] })];
+    message.channel.send({ embeds: [embed], components });
   }
 }
 
