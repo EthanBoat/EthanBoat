@@ -5,6 +5,9 @@ const BaseAPI = require('../../BaseAPI');
 
 const fourHours = 4 * 60 * 60 * 1000;
 
+/**
+ * Methods for interacting with the nasa api
+ */
 class NasaAPI extends BaseAPI {
   constructor(raft) {
     const apiConfig = {

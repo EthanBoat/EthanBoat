@@ -1,5 +1,8 @@
 'use strict';
 
+/**
+ * Houses utility functions for the entire application.
+ */
 class Util {
   constructor() {
     throw new Error('This class may not be instantiated');

@@ -19,7 +19,7 @@ class RegeneratePuppyInteraction extends BaseInteraction {
     const breed = breedInfo[0] !== 'undefined' ? breedInfo[0] : undefined;
     const subbreed = breedInfo[1] !== 'undefined' ? breedInfo[1] : undefined;
     await interaction.deferUpdate();
-    const pupper = await this.raft.apis.dog.getRandom(breed, subbreed).catch(err => this.boat.log.verbose(module, `Error getting pupper`, err));
+    const pupper = await this.raft.apis.dog.getRandom(breed, subbreed).catch(err => this.boat.log.verbose(module, `Error getting pupper`, err.response?.data));
     if (!pupper) {
       interaction.followUp('The puppers went missing :(', { ephemeral: true });
       return;

@@ -2,6 +2,9 @@
 
 const BaseAPI = require('../../BaseAPI');
 
+/**
+ * Methods for interacting with the dog api
+ */
 class DogAPI extends BaseAPI {
   constructor(raft) {
     const apiConfig = {
