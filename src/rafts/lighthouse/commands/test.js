@@ -15,7 +15,7 @@ class test extends BaseCommand {
 
   run(message) {
     let embed = new Discord.MessageEmbed().setDescription('Testing, testing, can anyone hear me?');
-    let components = [new Discord.MessageActionRow({ components: [{ type: 'BUTTON', customID: 'whatever you want', label: 'test', style: 'SUCCESS' }] })];
+    let components = this.raft.interactions.buttonComponents.get('TESTING_CLICKY_BOIS').definition;
     message.channel.send({ embeds: [embed], components });
   }
 }
