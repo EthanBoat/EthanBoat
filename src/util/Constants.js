@@ -30,7 +30,7 @@ exports.DiscordColors = {
   DEEP_GOLD: 0xffab32,
 };
 
-exports.ComponentFunctions = createEnum(['REGENERATE_PUPPY', 'TESTING_CLICKY_BOIS']);
+exports.ComponentFunctions = createEnum(['REGENERATE_PUPPY', 'HANDLE_CLICK', 'HANDLE_SELECT', 'TESTING_CLICKY_BOIS']);
 
 function createEnum(keys) {
   const obj = {};

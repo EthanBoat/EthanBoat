@@ -1,6 +1,7 @@
 'use strict';
 
 const commands = require('./commands');
+const interactions = require('./interactions');
 const BaseRaft = require('../BaseRaft');
 
 /**
@@ -9,7 +10,7 @@ const BaseRaft = require('../BaseRaft');
  */
 class SeaShanties extends BaseRaft {
   launch() {
-    super.launch({ commands });
+    super.launch({ commands, interactions });
   }
 }
 
