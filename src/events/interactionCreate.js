@@ -10,14 +10,17 @@ module.exports = async (boat, interaction) => {
     handler = boat.interactions.commands.get(interaction.commandName);
   }
   if (interaction.isMessageComponent()) {
-    if (!verifyCustomId(interaction.customID, interaction.message.components)) {
+    if (!verifyCustomId(interaction.customId, interaction.message.components)) {
       interaction.reply({ content: 'You think you are sneaky huh, well, no such luck here!', ephemeral: true });
       return;
     }
-    const name = ComponentFunctions[Number(interaction.customID.split(':')[0])];
+    const name = ComponentFunctions[Number(interaction.customId.split(':')[0])];
     switch (interaction.componentType) {
       case 'BUTTON':
         handler = boat.interactions.buttonComponents.get(name);
+        break;
+      case 'SELECT_MENU':
+        handler = boat.interactions.selectMenuComponents.get(name);
         break;
     }
   }
@@ -40,7 +43,7 @@ module.exports = async (boat, interaction) => {
 
 function verifyCustomId(id, components) {
   if (!components?.length) return true;
-  const found = components.find(component => component.type === 'ACTION_ROW' && component.components.find(c => c.customID === id));
+  const found = components.find(component => component.type === 'ACTION_ROW' && component.components.find(c => c.customId === id));
   if (found) return true;
   return false;
 }

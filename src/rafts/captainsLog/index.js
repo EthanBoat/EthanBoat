@@ -45,14 +45,14 @@ class CaptainsLog extends BaseRaft {
   }
 
   launch() {
-    const token = this.boat.options.log.webhookToken.split('/');
+    const options = this.boat.options.log.webhookToken.split('/');
     /**
      * The webhook client that handles sending error logs to discord
      * Only available after launching
      * @type {WebhookClient}
      * @private
      */
-    this.webhook = new WebhookClient(token[0], token[1]);
+    this.webhook = new WebhookClient({ id: options[0], token: options[1] });
   }
 
   /**

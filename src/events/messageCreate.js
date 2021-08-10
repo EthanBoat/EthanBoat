@@ -6,7 +6,7 @@ module.exports = async (boat, message) => {
   // Ignore bots
   if (message.author.bot) return;
 
-  if (message.channel.type !== 'text') return;
+  if (message.channel.type !== 'GUILD_TEXT') return;
 
   if (!message.content.startsWith(boat.prefix)) {
     handleRaft(boat.rafts, message);
