@@ -9,6 +9,16 @@ module.exports = async (boat, interaction) => {
   if (interaction.isCommand()) {
     handler = boat.interactions.commands.get(interaction.commandName);
   }
+  if (interaction.isContextMenu()) {
+    switch (interaction.targetType) {
+      case 'MESSAGE':
+        handler = boat.interactions.messageContextMenuComponents.get(interaction.commandName.toLowerCase());
+        break;
+      case 'USER':
+        handler = boat.interactions.userContextMenuComponents.get(interaction.commandName.toLowerCase());
+        break;
+    }
+  }
   if (interaction.isMessageComponent()) {
     if (!verifyCustomId(interaction.customId, interaction.message.components)) {
       interaction.reply({ content: 'You think you are sneaky huh, well, no such luck here!', ephemeral: true });

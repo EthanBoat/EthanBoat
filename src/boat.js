@@ -90,6 +90,8 @@ class Boat {
       commands: new Collection(),
       buttonComponents: new Collection(),
       selectMenuComponents: new Collection(),
+      userContextMenuComponents: new Collection(),
+      messageContextMenuComponents: new Collection(),
     };
 
     /**
